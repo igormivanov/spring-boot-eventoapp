@@ -6,18 +6,19 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Convidado {
+
+	@Id 
+	private Long rg;
 	
-	@Id
-	private String rg;
 	private String nomeConvidado;
 	
 	@ManyToOne
 	private Evento evento;
 	
-	public String getRg() {
+	public Long getRg() {
 		return rg;
 	}
-	public void setRg(String rg) {
+	public void setRg(Long rg) {
 		this.rg = rg;
 	}
 	public String getNomeConvidado() {
@@ -31,7 +32,6 @@ public class Convidado {
 	}
 	public void setEvento(Evento evento) {
 		this.evento = evento;
-	}
-	
+	}	
 	
 }
