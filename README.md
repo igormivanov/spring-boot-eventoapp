@@ -1,22 +1,28 @@
-# NLW eSports
+# Evento app
 
-![priview](./.github/preview.png)
+![priview](./.github/Preview1.png)
 
-> Trilha Explorer
+# Sobre o projeto
 
-Projeto <b>personalizado</b> contruído no evento Next Level Week da Rocketseat.
+Aplicativo web <b>personalizado</b> contruído no intuíto de aprimorar o aprendizado sobre Spring boot e CRUD na linguagem Java
 
-[Clique aqui para acessar](https://igormivanov.github.io/Rocketseat-NLW-ExplorerV2/)
+A aplicação consiste em ser um modelo de agenda, nele é possível Criar, atualizar e editar um evento, podendo também atribuir pessoas a esse mesmo evento
+
 
 ## Tecnologias 
 
-- HTML
-- CSS
+- HTML / CSS / JS
+
+- java
+- Spring boot
+- Maven
+- JPA / Hibernate
+
 - Git e Github
 
 ## Considerações
 
-Após a finalização do projeto base do evento NLW eSports, concluí uma versão personalizada reproduzindo a mesma ideia, porém com novas transições e caracteristicas.
+Se trata de um projeto inicial, apenas com técnicas básicas. Entretanto, foi de grande conhecimento adquirido com Spring boot e arquitetura MVC
 
 ## Contato 
 

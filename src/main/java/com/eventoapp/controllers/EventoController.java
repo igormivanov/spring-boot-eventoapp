@@ -12,20 +12,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eventoapp.models.Convidado;
 import com.eventoapp.models.Evento;
-import com.eventoapp.repository.ConvidadoRepository;
-import com.eventoapp.repository.EventoRepository;
+import com.eventoapp.services.ConvidadoService;
+import com.eventoapp.services.EventoService;
 
 import jakarta.validation.Valid;
 
 @Controller
 public class EventoController {
     
-    //criar um aotwired pro evento repository
+    //criar um autowired pro evento repository
     @Autowired
-    private EventoRepository er;
+    private EventoService eventoService;
     
     @Autowired
-    private ConvidadoRepository cr;
+    private ConvidadoService convidadoService;
     
     @RequestMapping(value="/cadastrarEvento",method=RequestMethod.GET)//metodo para retornar o formulario
     public String form() {
@@ -38,7 +38,7 @@ public class EventoController {
             attributes.addFlashAttribute("mensagem", "Verifique os campos!");
             return "redirect:/cadastrarEvento";
         }
-        er.save(evento);
+        eventoService.save(evento);
         attributes.addFlashAttribute("mensagem", "Evento cadastrado com sucesso");
         return "redirect:/cadastrarEvento";
     }
@@ -47,7 +47,7 @@ public class EventoController {
     @RequestMapping("/eventos")
     public ModelAndView listaEventos() {
         ModelAndView mv = new ModelAndView("index");//mostra a pagina que será renderizada
-        Iterable<Evento> eventos = er.findAll();//fazer busca no banco de dados
+        Iterable<Evento> eventos = eventoService.findAll();//fazer busca no banco de dados
         mv.addObject("eventos", eventos);//colocar o evento que foi buscado na view que sera renderizada
         return mv;
     }
@@ -55,11 +55,11 @@ public class EventoController {
     //metodo para quando clicar no nome do evento, ser redirecionado para outra pagina onde mostrará detalhes do evento
     @RequestMapping(value="/{codigo}",method=RequestMethod.GET)
     public ModelAndView detalhesEvento(@PathVariable("codigo")long codigo) {
-        Evento evento = er.findByCodigo(codigo);//metodo que foi feito na classe EventoRepository para encontrar o codigo no banco de dados e guardar na variavel "evento"
+        Evento evento = eventoService.findByCodigo(codigo);//metodo que foi feito na classe EventoRepository para encontrar o codigo no banco de dados e guardar na variavel "evento"
         ModelAndView mv = new ModelAndView("evento/detalhesEvento");//criação de uma nova pagina para ser redirecionado
         mv.addObject("evento", evento);
         
-        Iterable<Convidado> convidados = cr.findByEvento(evento);
+        Iterable<Convidado> convidados = convidadoService.findByEvento(evento);
         mv.addObject("convidados", convidados);
         return mv;
         
@@ -67,8 +67,8 @@ public class EventoController {
     
     @RequestMapping("/deletar")
     public String deletarEvento(long codigo) {
-    	Evento evento = er.findByCodigo(codigo);
-    	er.delete(evento);
+    	Evento evento = eventoService.findByCodigo(codigo);
+    	eventoService.delete(evento);
     	return "redirect:/eventos";
     }
     
@@ -81,17 +81,17 @@ public class EventoController {
             return "redirect:/{codigo}";
         }
         //o convidado deve estar relacionado com o codigo do evento
-        Evento evento = er.findByCodigo(codigo);
+        Evento evento = eventoService.findByCodigo(codigo);
         convidado.setEvento(evento);
-        cr.save(convidado);
+        convidadoService.save(convidado);
         attributes.addFlashAttribute("mensagem", "Convidado adicionado com sucesso!");
         return "redirect:/{codigo}";
     }
 
     @RequestMapping("/deletarConvidado")
     public String deletarConvidado(String rg) {
-    	Convidado convidado = cr.findByRg(rg);
-    	cr.delete(convidado);
+    	Convidado convidado = convidadoService.findByRg(rg);
+    	convidadoService.delete(convidado);
     	
     	Evento evento = convidado.getEvento();
     	long codigoLong = evento.getCodigo();
